@@ -10,15 +10,15 @@ def generate_server_key_pair(parameters):
     public_key = private_key.public_key()
     return private_key, public_key
 
-def main ():
+def main():
     parameters = generate_dh_parameters()
     private_key, public_key = generate_server_key_pair(parameters)
-
+    
     with open("server_public_key.pem", "wb") as f:
         f.write(public_key.public_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         ))
-
-if __name__=="__main__":
+        
+if __name__ == "__main__":
     main()

@@ -8,8 +8,8 @@ class ECCCipher:
         pass
 
     def generate_keys(self):
-        sk = ecdsa.SigningKey.generate() 
-        vk = sk.get_verifying_key()       
+        sk = ecdsa.SigningKey.generate()
+        vk = sk.get_verifying_key()
 
         with open('cipher/ecc/keys/privateKey.pem', 'wb') as p:
             p.write(sk.to_pem())
@@ -27,6 +27,7 @@ class ECCCipher:
         return sk, vk
 
     def sign(self, message, key):
+        
         return key.sign(message.encode('ascii'))
 
     def verify(self, message, signature, key):

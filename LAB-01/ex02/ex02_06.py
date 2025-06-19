@@ -1,12 +1,9 @@
-input_str = input("Nhập X, Y: ")
+input_str = input("NhapX, Y: ")
 dimensions = [int(x) for x in input_str.split(',')]
 rowNum = dimensions[0]
 colNum = dimensions[1]
-
-multiList = [[0 for col in range(colNum)] for row in range(rowNum)]
-
-for row in range(rowNum):
-    for col in range(colNum):
-        multiList[row][col] = row * col
-
-print(multiList)
+multilist = [[0 for col in range(colNum)] for row in range(rowNum)]
+for i in range(rowNum):
+    for j in range(colNum):
+        multilist[i][j] = i * j
+print(multilist)

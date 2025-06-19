@@ -1,5 +1,7 @@
-import rsa, os
-
+import sys, rsa, os
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
+from ui.rsa import Ui_MainWindow
+import requests
 if not os.path.exists('cipher/rsa/keys'):
     os.makedirs('cipher/rsa/keys')
 
@@ -38,3 +40,4 @@ class RSACipher:
             return rsa.verify(message.encode('ascii'), signature, key,) == 'SHA-1'
         except:
             return False
+        

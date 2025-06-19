@@ -17,37 +17,38 @@ def md5(message):
         block = message[i:i+64]
         words = [int.from_bytes(block[j:j+4], 'little') for j in range(0, 64, 4)]
 
-        # a0, b0, c0, d0 = a, b, c, d
         a0, b0, c0, d0 = a, b, c, d
 
         for j in range(64):
             if j < 16:
-                f = (b & c) | (~b & d)
+                f = (b & c) | ((~b) & d)
                 g = j
             elif j < 32:
-                f = (d & b) | (~d & c)
-                g = (5 * j + 1) % 16
+                f = (d & b) | ((~d) & c)
+                g = (5*j + 1) % 16
             elif j < 48:
-                f = b ^ c ^ d
-                g = (3 * j + 5) % 16
+                f = (b ^ c ^ d)
+                g = (3*j + 5) % 16
             else:
-                f = c ^ (b | ~d)
-                g = (7 * j) % 16
+                f = (c ^ (b | ~d))
+                g = (7*j) % 16
 
             temp = d
             d = c
             c = b
-            b = b + left_rotate(a + f + words[g] + 0xD76AA478, [7, 12, 17, 22][j % 4])
-            a = temp
+            b = b + left_rotate((a + f + 0x5A827999 + words[g]) & 0xFFFFFFFF, 3)
+            a = (a + b) & 0xFFFFFFFF
+            b = (b + c) & 0xFFFFFFFF
+            c = (c + d) & 0xFFFFFFFF
+            d = (d + temp) & 0xFFFFFFFF
 
         a = (a + a0) & 0xFFFFFFFF
         b = (b + b0) & 0xFFFFFFFF
         c = (c + c0) & 0xFFFFFFFF
         d = (d + d0) & 0xFFFFFFFF
 
-    return '{:08x}{:08x}{:08x}{:08x}'.format(a, b, c, d)
+    return f'{a:08x}{b:08x}{c:08x}{d:08x}'.format(a, b, c, d)
 
 input_string = input("Nhập chuỗi cần băm: ")
 md5_hash = md5(input_string.encode('utf-8'))
-
-print("Mã băm MD5 của chuỗi '{}' là: {}".format(input_string, md5_hash))
+print("Mã băm MD5 của chuỗi '{}': {}".format(input_string, md5_hash))
